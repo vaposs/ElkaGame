@@ -16,7 +16,7 @@ public class SendParking : MonoBehaviour
         {
             if(_loadPeopleZones[i].IsFreePlace == true)
             {
-                _loadPeopleZones[i].TakeParking();
+                _loadPeopleZones[i].SetBusy();
                 return _loadPeopleZones[i].transform;
             }
         }

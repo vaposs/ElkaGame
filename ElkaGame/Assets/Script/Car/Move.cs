@@ -4,11 +4,9 @@ using ElkaGame.Men;
 [RequireComponent(typeof(LoadPeopl))]
 public class Move : MonoBehaviour
 {
-    [SerializeField] private float _distance;
     [SerializeField] private Transform _startRay;
     [SerializeField] private float _speed;
     private Ray _ray;
-
     private LoadPeopl _loadPeopl;
     private RaycastHit[] _raycastHit;
     private Transform _target = null;
@@ -29,7 +27,7 @@ public class Move : MonoBehaviour
         {
             MoveToTarget(_target);
         }
-        else if(_loadPeopl.IsFullLoad())
+        else if(_loadPeopl.MaxCapasiti == _loadPeopl.CurrentCapaciti)
         {
             MoveToTarget(_target);
         }
@@ -48,13 +46,24 @@ public class Move : MonoBehaviour
         _target = target;
     }
 
-    private bool CheckRouted()
+    private void MoveForward()
+    {
+        transform.Translate(Vector3.forward * _speed * Time.deltaTime);
+    }
+
+    private void MoveToTarget(Transform target)
+    {
+        transform.position = Vector3.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
+        transform.LookAt(target);
+    }
+
+    public bool CheckRouted()
     {
         _ray = new Ray(_startRay.position, transform.forward);
 
-        Debug.DrawRay(_ray.origin, _ray.direction * _distance, Color.red);
+        Debug.DrawRay(_ray.origin, _ray.direction, Color.red);
 
-        _raycastHit = Physics.RaycastAll(_ray, _distance);
+        _raycastHit = Physics.RaycastAll(_ray);
 
         foreach(var item in _raycastHit)
         {
@@ -67,22 +76,10 @@ public class Move : MonoBehaviour
         return true;
     }
 
-    private void MoveForward()
-    {
-        transform.Translate(Vector3.forward * _speed * Time.deltaTime);
-    }
-
-    private void MoveToTarget(Transform target)
-    {
-        transform.position = Vector3.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
-        transform.LookAt(target);
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if(other.transform.TryGetComponent<LoadPeopleZone>(out LoadPeopleZone loadPeopleZone))
         {
-            Debug.Log("enter");
             IsCanMove = false;
             transform.position = loadPeopleZone.transform.position;
             transform.rotation = loadPeopleZone.transform.rotation;
@@ -93,7 +90,6 @@ public class Move : MonoBehaviour
     {
         if(other.transform.TryGetComponent<LoadPeopleZone>(out LoadPeopleZone loadPeopleZone))
         {
-            Debug.Log("exit");
             loadPeopleZone.SetFree();
         }
     }

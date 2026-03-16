@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace  ElkaGame.Men
@@ -10,14 +8,14 @@ namespace  ElkaGame.Men
 
         public bool IsFreePlace {get; private set;} = true;
 
-        public void TakeParking()
-        {
-            IsFreePlace = false;
-        }
-
         public void SetFree()
         {
             IsFreePlace = true;
+        }
+
+        public void SetBusy()
+        {
+            IsFreePlace = false;
         }
     }
 }

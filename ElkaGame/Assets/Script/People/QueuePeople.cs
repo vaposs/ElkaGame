@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
-using UnityEngine.Splines;
 
 public class QueuePeople : MonoBehaviour
 {
@@ -30,7 +26,7 @@ public class QueuePeople : MonoBehaviour
             _currentSpawn = _timeSpawn;
         }
 
-        _currentSpawn -= Time.deltaTime;
+        _currentSpawn -= Time.deltaTime;   
     }
 
     private void OnDrawGizmos()
