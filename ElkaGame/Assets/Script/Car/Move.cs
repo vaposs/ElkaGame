@@ -11,12 +11,14 @@ public class Move : MonoBehaviour
     private RaycastHit[] _raycastHit;
     private Transform _target = null;
 
+    public bool IsHaveParkingPlace {get; private set; } = false;
     public bool  IsCanMove {get; private set; }  = false;
-
     private void Awake()
     {
+        IsCanMove = false;
         _loadPeopl = GetComponent<LoadPeopl>();
     }
+    
     private void Update()
     {
         if(IsCanMove == true && _target == null )
@@ -74,6 +76,16 @@ public class Move : MonoBehaviour
         }
 
         return true;
+    }
+
+    public bool IsFool()
+    {
+        return _loadPeopl.IsFool();
+    }
+
+    public void TakeParkingPlace()
+    {
+        IsHaveParkingPlace = true;
     }
 
     private void OnTriggerEnter(Collider other)

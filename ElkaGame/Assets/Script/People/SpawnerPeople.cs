@@ -70,6 +70,7 @@ public class SpawnerPeople : MonoBehaviour
                 else
                 {
                     randomCountPeople = _counts[indexColor];
+                    _counts[indexColor] = 0;
                 }
 
                 while(randomCountPeople > 0)

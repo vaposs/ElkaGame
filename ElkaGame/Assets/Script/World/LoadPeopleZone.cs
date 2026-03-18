@@ -4,8 +4,6 @@ namespace  ElkaGame.Men
 {
     public class LoadPeopleZone : MonoBehaviour
     {
-        private LoadPeopl _tempLoadPeopl;
-
         public bool IsFreePlace {get; private set;} = true;
 
         public void SetFree()

@@ -16,40 +16,24 @@ public class Loader : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("work");
 
         if(_cars.Count > 0)
-        {
-            Debug.Log(_cars.Count + "количество" );
-            
+        {            
             foreach(LoadPeopl car in _cars)
             {
-                Debug.Log("1");
-
                 if(car.MaxCapasiti != car.CurrentCapaciti)
                 {
-                    Debug.Log(_loadZone.IsHaveMan + "=====" + _tempMan );
-
                     if(_loadZone.IsHaveMan == true || _tempMan != null)
                     {
-                        Debug.Log("3");    
-
                         if(_tempMan == null)
                         {
                             _tempMan = _loadZone.GiveManLOad();
                         }
 
-                        Debug.Log("все готово");
-
                         if(_tempMan.GetColor() ==  car.GetColor())
                         {
-                            Debug.Log("грузим");
                             car.Load(_tempMan);
                             _tempMan = null;
-                        }
-                        else
-                        {
-                            Debug.Log("цвет не подошел");
                         }
                     }
                 }

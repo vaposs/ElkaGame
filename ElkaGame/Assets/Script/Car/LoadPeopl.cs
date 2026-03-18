@@ -25,6 +25,11 @@ public class LoadPeopl : MonoBehaviour
         _meshRenderer.material.color = _colors[Random.Range(0,_colors.Length)];
     }
 
+    public bool IsFool()
+    {
+        return CurrentCapaciti == MaxCapasiti;
+    }
+
     public void Load(Man man)
     {
         man.transform.SetParent(this.transform);

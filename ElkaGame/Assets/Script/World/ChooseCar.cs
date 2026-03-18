@@ -20,7 +20,7 @@ public class ChooseCar : MonoBehaviour
 
     private void OnDisable()
     {
-        _inputControlGame.ChoosedCar += SendRayCast;
+        _inputControlGame.ChoosedCar -= SendRayCast;
     }
 
     private void SendRayCast()

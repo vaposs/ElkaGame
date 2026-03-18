@@ -26,19 +26,21 @@ public class SendParking : MonoBehaviour
         return null;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if(collision.transform.TryGetComponent<Move>(out Move move))
         {
-            if(move.IsCanMove == true)
+            if(move.IsCanMove == true && move.IsHaveParkingPlace == false)
             {
+                move.TakeParkingPlace();
                 move.TakeNextTarget(TakeParkingPlace());
             }
-            else
+            else if(move.IsFool() == true)
             {
                 move.TakeNextTarget(_exitPoint);
             }
         
         }
     }
+
 }
