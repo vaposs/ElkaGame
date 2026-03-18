@@ -7,7 +7,11 @@ public class UIController : MonoBehaviour
 {
     [SerializeField] private Image _endWindow;
     [SerializeField] private Image _winnerWindow;
-    [SerializeField] private Button _restartButton;
+    [SerializeField] private Image _menuWindow;
+    [SerializeField] private Button _restartButtonOne;
+    [SerializeField] private Button _restartButtonSecond;
+    [SerializeField] private Button _menuOpenutton;
+    [SerializeField] private Button _menuCloseButton;
     private SendParking _sendParking;
     private EndPoint _endPoint;
     private void Awake()
@@ -16,6 +20,7 @@ public class UIController : MonoBehaviour
         _endPoint = GameObject.FindAnyObjectByType<EndPoint>();
         _sendParking = GameObject.FindAnyObjectByType<SendParking>();
         _endWindow.gameObject.SetActive(false);
+        _menuWindow.gameObject.SetActive(false);
         _winnerWindow.gameObject.SetActive(false);
     }
 
@@ -23,14 +28,20 @@ public class UIController : MonoBehaviour
     {
         _sendParking.EndedGame += EnableRestartWindow;
         _endPoint.WinedGame += EnableWinnreWindow;
-        _restartButton.onClick.AddListener(RestartLevel);
+        _restartButtonOne.onClick.AddListener(RestartLevel);
+        _restartButtonSecond.onClick.AddListener(RestartLevel);
+        _menuOpenutton.onClick.AddListener(OpenCloseMenu);
+        _menuCloseButton.onClick.AddListener(OpenCloseMenu);
     }
 
     private void OnDisable()
     {
         _sendParking.EndedGame -= EnableRestartWindow;
         _endPoint.WinedGame -= EnableWinnreWindow;
-        _restartButton.onClick.RemoveListener(RestartLevel);
+        _restartButtonOne.onClick.RemoveListener(RestartLevel);
+        _restartButtonSecond.onClick.RemoveListener(RestartLevel);
+        _menuOpenutton.onClick.RemoveListener(OpenCloseMenu);
+        _menuCloseButton.onClick.RemoveListener(OpenCloseMenu);
     }
 
     private void EnableRestartWindow()
@@ -49,5 +60,19 @@ public class UIController : MonoBehaviour
     {
         _endWindow.gameObject.SetActive(false);
         SceneManager.LoadScene(0);
+    }
+
+    private void OpenCloseMenu()
+    {
+        _menuWindow.gameObject.SetActive(!_menuWindow.gameObject.activeSelf);
+
+        if(Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
+        else
+        {
+            Time.timeScale = 0;
+        }
     }
 }
