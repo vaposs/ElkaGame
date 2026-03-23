@@ -1,9 +1,14 @@
-using UnityEngine.Splines;
+using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Animator))]
 public class Man : MonoBehaviour
 {
+    private const string IsMove = nameof(IsMove);
+
     [SerializeField] private float _speed = 1f;
     [SerializeField] private float _distance;
     [SerializeField] private Transform _startRay;
@@ -13,11 +18,17 @@ public class Man : MonoBehaviour
     private RaycastHit[] _raycastHit;
     private float _currentSpeed;
     private MeshRenderer _meshRenderer;
+    private Rigidbody _rigidbody;
+    private Animator _animator;
+    private Collider _collider;
     private bool _isEndRoute = false;
 
     private void Awake()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
+        _collider = GetComponent<Collider>();
     }
     private void Start()
     {
@@ -27,20 +38,26 @@ public class Man : MonoBehaviour
     {
         if(CheckRouted() && _isEndRoute == false ) 
         {
-            MoveLeft();
+            _animator.SetBool(IsMove, true);
+            MoveForward();
         }
+        else
+        {
+            _animator.SetBool(IsMove, false);
+        }
+
     }
 
-    private void MoveLeft()
+    private void MoveForward()
     {
-        transform.Translate(Vector3.left * _currentSpeed * Time.deltaTime);
+        transform.Translate(Vector3.forward * _currentSpeed * Time.deltaTime);
     }
 
     private bool CheckRouted()
     {
-        _ray = new Ray(_startRay.position, -transform.right);
+        _ray = new Ray(_startRay.position, transform.forward);
 
-        Debug.DrawRay(_ray.origin, _ray.direction * _distance, Color.red);
+        Debug.DrawRay(_ray.origin, _ray.direction * _distance, Color.green);
 
         _raycastHit = Physics.RaycastAll(_ray, _distance);
 
@@ -58,6 +75,7 @@ public class Man : MonoBehaviour
 
     public void CommandStop()
     {
+        _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
         _isEndRoute = true;
     }
 
@@ -69,5 +87,12 @@ public class Man : MonoBehaviour
     public Color GetColor()
     {
         return _meshRenderer.material.color;
+    }
+
+    public void InviteCar()
+    {
+        _meshRenderer.enabled = false;
+        _collider.enabled = false;
+
     }
 }

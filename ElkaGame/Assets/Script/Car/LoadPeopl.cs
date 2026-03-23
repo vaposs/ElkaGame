@@ -1,11 +1,10 @@
 using UnityEngine;
 
-[RequireComponent(typeof(MeshRenderer))]
 public class LoadPeopl : MonoBehaviour
 {
     [SerializeField] private Transform[] _peoplePlace;
-    
-    private MeshRenderer _meshRenderer;
+    [SerializeField]private MeshRenderer[] _meshRenderers;
+    private Color _colorCar;
     private Color[] _colors;
 
     public int CurrentCapaciti {get; private set;} = 0;
@@ -14,7 +13,6 @@ public class LoadPeopl : MonoBehaviour
 
     private void Awake()
     {
-        _meshRenderer = GetComponent<MeshRenderer>();
         _colors = FindAnyObjectByType<SetingGame>().GetAllColors();
         SetRandomColor();
         MaxCapasiti = _peoplePlace.Length;
@@ -22,7 +20,12 @@ public class LoadPeopl : MonoBehaviour
 
     public void SetRandomColor()
     {
-        _meshRenderer.material.color = _colors[Random.Range(0,_colors.Length)];
+        _colorCar = _colors[Random.Range(0,_colors.Length)];
+
+        foreach(MeshRenderer meshRenderer in _meshRenderers)
+        {
+            meshRenderer.material.color = _colorCar;
+        }
     }
 
     public bool IsFool()
@@ -33,13 +36,14 @@ public class LoadPeopl : MonoBehaviour
     public void Load(Man man)
     {
         man.transform.SetParent(this.transform);
+        man.InviteCar();
         man.transform.position = _peoplePlace[CurrentCapaciti].position;
         CurrentCapaciti ++;
     }
 
     public Color GetColor()
     {
-        return _meshRenderer.material.color;
+        return _colorCar;
     }
 
     

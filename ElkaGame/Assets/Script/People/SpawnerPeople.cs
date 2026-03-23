@@ -5,10 +5,7 @@ using UnityEngine;
 
 public class SpawnerPeople : MonoBehaviour
 {
-    [SerializeField] private int _countMan;
     [SerializeField] private Man _prefabMan;
-    [SerializeField] private Transform _conteiner;
-
     private Queue<Man> _poolMan;
     private Man _tempMan;
     private List<Color> _colors;
@@ -86,7 +83,7 @@ public class SpawnerPeople : MonoBehaviour
 
     private void CreateMan(Color color)
     {
-        _tempMan = Instantiate(_prefabMan, _conteiner);
+        _tempMan = Instantiate(_prefabMan);
         _tempMan.SetColor(color);
         _poolMan.Enqueue(_tempMan);
         _tempMan.gameObject.SetActive(false);

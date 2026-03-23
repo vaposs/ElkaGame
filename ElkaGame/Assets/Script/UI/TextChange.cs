@@ -1,19 +1,24 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TextChange : MonoBehaviour
 {
-    [SerializeField] private Text _textFild;
+    [SerializeField] private TextMeshProUGUI _textFild;
     [SerializeField] private string[] _text;
+
+    private void Awake()
+    {
+        _textFild.text = _text[SettingUi.s_currentIndexLanguages];
+    }
 
     private void OnEnable()
     {
-        StartScene.ChangedLanguages += ChangeText;
+        SettingUi.ChangedLanguages += ChangeText;
     }
 
     private void OnDisable()
     {
-        StartScene.ChangedLanguages -= ChangeText;
+        SettingUi.ChangedLanguages -= ChangeText;
     }
 
     private void ChangeText(int index)
