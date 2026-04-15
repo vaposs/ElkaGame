@@ -35,5 +35,10 @@ public class ChooseCar : MonoBehaviour
         {
             move.OnClicked();
         }
+
+        if(_raycastHit.transform.TryGetComponent<ShowAd>(out ShowAd showAd))
+        {
+            showAd.StartShowAd();
+        }
     }
 }

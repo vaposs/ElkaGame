@@ -43,4 +43,9 @@ public class SendParking : MonoBehaviour
         }
     }
 
+    public void AddLoadPeopleZone(LoadPeopleZone loadPeopleZone)
+    {
+        _loadPeopleZones.Add(loadPeopleZone);
+    }
+
 }

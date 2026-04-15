@@ -1,23 +1,22 @@
 using UnityEditor;
 using UnityEngine;
 
-[RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Animator))]
 public class Man : MonoBehaviour
 {
-    private const string IsMove = nameof(IsMove);
+    private const string IsRun = nameof(IsRun);
 
     [SerializeField] private float _speed = 1f;
     [SerializeField] private float _distance;
     [SerializeField] private Transform _startRay;
+    [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
 
      
     private Ray _ray;
     private RaycastHit[] _raycastHit;
     private float _currentSpeed;
-    private MeshRenderer _meshRenderer;
     private Rigidbody _rigidbody;
     private Animator _animator;
     private Collider _collider;
@@ -25,7 +24,6 @@ public class Man : MonoBehaviour
 
     private void Awake()
     {
-        _meshRenderer = GetComponent<MeshRenderer>();
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
         _collider = GetComponent<Collider>();
@@ -38,12 +36,12 @@ public class Man : MonoBehaviour
     {
         if(CheckRouted() && _isEndRoute == false ) 
         {
-            _animator.SetBool(IsMove, true);
+            _animator.SetBool(IsRun, true);
             MoveForward();
         }
         else
         {
-            _animator.SetBool(IsMove, false);
+            _animator.SetBool(IsRun, false);
         }
 
     }
@@ -81,18 +79,17 @@ public class Man : MonoBehaviour
 
     public void SetColor(Color color)
     {
-        _meshRenderer.material.color = color;
+        skinnedMeshRenderer.material.color = color;
     }
 
     public Color GetColor()
     {
-        return _meshRenderer.material.color;
+        return skinnedMeshRenderer.material.color;
     }
 
     public void InviteCar()
     {
-        _meshRenderer.enabled = false;
+        skinnedMeshRenderer.enabled = false;
         _collider.enabled = false;
-
     }
 }

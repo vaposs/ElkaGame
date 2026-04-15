@@ -13,6 +13,7 @@ public class Move : MonoBehaviour
 
     public bool IsHaveParkingPlace {get; private set; } = false;
     public bool  IsCanMove {get; private set; }  = false;
+    public bool  IsMove {get; private set; }  = true;
     private void Awake()
     {
         IsCanMove = false;
@@ -24,14 +25,21 @@ public class Move : MonoBehaviour
         if(IsCanMove == true && _target == null )
         {
             MoveForward();
+            IsMove = true;
         }
         else if(_target != null && IsCanMove == true) 
         {
             MoveToTarget(_target);
+            IsMove = true;
         }
         else if(_loadPeopl.MaxCapasiti == _loadPeopl.CurrentCapaciti)
         {
             MoveToTarget(_target);
+            IsMove = true;
+        }
+        else
+        {
+            IsMove = false;
         }
     }
 
